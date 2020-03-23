@@ -14,6 +14,8 @@
 		4A7049EB2425B1B8002F17A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A7049EA2425B1B8002F17A1 /* Assets.xcassets */; };
 		4A7049EE2425B1B8002F17A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A7049EC2425B1B8002F17A1 /* LaunchScreen.storyboard */; };
 		4A7049F12425B1B8002F17A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A7049F02425B1B8002F17A1 /* main.m */; };
+		4A7049FC2425B4B0002F17A1 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A7049FB2425B4B0002F17A1 /* TestViewController.m */; };
+		4A704A0924260D4E002F17A1 /* MyNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A704A0824260D4E002F17A1 /* MyNotificationCenter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,10 @@
 		4A7049ED2425B1B8002F17A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4A7049EF2425B1B8002F17A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4A7049F02425B1B8002F17A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4A7049FA2425B4B0002F17A1 /* TestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		4A7049FB2425B4B0002F17A1 /* TestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		4A704A0724260D4E002F17A1 /* MyNotificationCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyNotificationCenter.h; sourceTree = "<group>"; };
+		4A704A0824260D4E002F17A1 /* MyNotificationCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyNotificationCenter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,10 +67,13 @@
 		4A7049DD2425B1B7002F17A1 /* NSNotificationCenterDemo */ = {
 			isa = PBXGroup;
 			children = (
+				4A704A0624260D2C002F17A1 /* MyNotificationCenter */,
 				4A7049DE2425B1B7002F17A1 /* AppDelegate.h */,
 				4A7049DF2425B1B7002F17A1 /* AppDelegate.m */,
 				4A7049E12425B1B7002F17A1 /* SceneDelegate.h */,
 				4A7049E22425B1B7002F17A1 /* SceneDelegate.m */,
+				4A7049FA2425B4B0002F17A1 /* TestViewController.h */,
+				4A7049FB2425B4B0002F17A1 /* TestViewController.m */,
 				4A7049E42425B1B7002F17A1 /* ViewController.h */,
 				4A7049E52425B1B7002F17A1 /* ViewController.m */,
 				4A7049E72425B1B7002F17A1 /* Main.storyboard */,
@@ -74,6 +83,15 @@
 				4A7049F02425B1B8002F17A1 /* main.m */,
 			);
 			path = NSNotificationCenterDemo;
+			sourceTree = "<group>";
+		};
+		4A704A0624260D2C002F17A1 /* MyNotificationCenter */ = {
+			isa = PBXGroup;
+			children = (
+				4A704A0724260D4E002F17A1 /* MyNotificationCenter.h */,
+				4A704A0824260D4E002F17A1 /* MyNotificationCenter.m */,
+			);
+			path = MyNotificationCenter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,7 +167,9 @@
 				4A7049E62425B1B7002F17A1 /* ViewController.m in Sources */,
 				4A7049E02425B1B7002F17A1 /* AppDelegate.m in Sources */,
 				4A7049F12425B1B8002F17A1 /* main.m in Sources */,
+				4A704A0924260D4E002F17A1 /* MyNotificationCenter.m in Sources */,
 				4A7049E32425B1B7002F17A1 /* SceneDelegate.m in Sources */,
+				4A7049FC2425B4B0002F17A1 /* TestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
