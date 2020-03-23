@@ -14,17 +14,23 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
 
 @interface MyNotificationModel : NSObject
 
+/// 通知的name
 @property(nonatomic, copy, nullable) NSString *name;
 
+/// 通知的object
 @property(nonatomic, strong, nullable) id object;
 
 // MASK: 此处使用 weak 属性修饰，以免 observer 被通知中心持有，导致无法释放
+/// 通知的发送对象observer
 @property(nonatomic, weak) id observer;
 
+/// 通知的调用函数selector
 @property(nonatomic, assign) SEL selector;
 
+/// 通知的回调函数block
 @property(nonatomic, copy) NotificationModelBlock block;
 
+/// 通知回调函数的执行队列queue
 @property(nonatomic, strong, nullable) NSOperationQueue *queue;
 
 @end
