@@ -16,6 +16,8 @@
 		4A7049EB2425B1B8002F17A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A7049EA2425B1B8002F17A1 /* Assets.xcassets */; };
 		4A7049EE2425B1B8002F17A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A7049EC2425B1B8002F17A1 /* LaunchScreen.storyboard */; };
 		4A7049F12425B1B8002F17A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A7049F02425B1B8002F17A1 /* main.m */; };
+		4AEB3F812429E87C00A51596 /* TwoWayLinkedList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AEB3F802429E87C00A51596 /* TwoWayLinkedList.m */; };
+		4AEB3F842429E8B100A51596 /* TwoWayLinkedListNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AEB3F832429E8B100A51596 /* TwoWayLinkedListNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,10 @@
 		4A7049ED2425B1B8002F17A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4A7049EF2425B1B8002F17A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4A7049F02425B1B8002F17A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4AEB3F7F2429E87C00A51596 /* TwoWayLinkedList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwoWayLinkedList.h; sourceTree = "<group>"; };
+		4AEB3F802429E87C00A51596 /* TwoWayLinkedList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TwoWayLinkedList.m; sourceTree = "<group>"; };
+		4AEB3F822429E8B100A51596 /* TwoWayLinkedListNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwoWayLinkedListNode.h; sourceTree = "<group>"; };
+		4AEB3F832429E8B100A51596 /* TwoWayLinkedListNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TwoWayLinkedListNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +82,7 @@
 		4A7049DD2425B1B7002F17A1 /* NSNotificationCenterDemo */ = {
 			isa = PBXGroup;
 			children = (
+				4AEB3F7E2429E85300A51596 /* Two-way Linked List */,
 				4A16E7822429062800A964F4 /* MyNotificationCenter */,
 				4A7049DE2425B1B7002F17A1 /* AppDelegate.h */,
 				4A7049DF2425B1B7002F17A1 /* AppDelegate.m */,
@@ -92,6 +99,17 @@
 				4A7049F02425B1B8002F17A1 /* main.m */,
 			);
 			path = NSNotificationCenterDemo;
+			sourceTree = "<group>";
+		};
+		4AEB3F7E2429E85300A51596 /* Two-way Linked List */ = {
+			isa = PBXGroup;
+			children = (
+				4AEB3F7F2429E87C00A51596 /* TwoWayLinkedList.h */,
+				4AEB3F802429E87C00A51596 /* TwoWayLinkedList.m */,
+				4AEB3F822429E8B100A51596 /* TwoWayLinkedListNode.h */,
+				4AEB3F832429E8B100A51596 /* TwoWayLinkedListNode.m */,
+			);
+			path = "Two-way Linked List";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,7 +187,9 @@
 				4A7049E62425B1B7002F17A1 /* ViewController.m in Sources */,
 				4A7049E02425B1B7002F17A1 /* AppDelegate.m in Sources */,
 				4A7049F12425B1B8002F17A1 /* main.m in Sources */,
+				4AEB3F842429E8B100A51596 /* TwoWayLinkedListNode.m in Sources */,
 				4A7049E32425B1B7002F17A1 /* SceneDelegate.m in Sources */,
+				4AEB3F812429E87C00A51596 /* TwoWayLinkedList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
