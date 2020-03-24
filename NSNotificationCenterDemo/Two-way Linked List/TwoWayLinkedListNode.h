@@ -16,9 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 节点值
 @property(nonatomic, strong) ObjectType value;
 /// 后一节点
-@property(nonatomic, strong) TwoWayLinkedListNode *nextNode;
+@property(nonatomic, strong, nullable) TwoWayLinkedListNode *nextNode;
 /// 前一节点
-@property(nonatomic, weak) TwoWayLinkedListNode *previousNode;
+@property(nonatomic, weak, nullable) TwoWayLinkedListNode *previousNode;
 
 
 + (instancetype)nodeWithValue:(__nonnull ObjectType)value;

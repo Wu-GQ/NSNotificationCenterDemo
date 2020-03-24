@@ -14,24 +14,27 @@
 /// 链表头结点
 @property(nonatomic, strong) TwoWayLinkedListNode<id> *head;
 
+/// 链表尾结点
+@property(nonatomic, strong) TwoWayLinkedListNode<id> *tail;
+
 @end
 
 
 @implementation TwoWayLinkedList
 
+#pragma mark - Public Function
+
 /// 在双向链表末尾添加节点，节点值为value
 - (void)addNodeWithValue:(__nonnull id)value {
     TwoWayLinkedListNode *node = [TwoWayLinkedListNode nodeWithValue:value];
-    if (_head) {
-        node.previousNode = _head.previousNode;
-        node.nextNode = _head;
-        
-        _head.previousNode.nextNode = node;
-        _head.previousNode = node;
+    
+    if (_tail) {
+        _tail.nextNode = node;
+        node.previousNode = self.tail;
+        _tail = node;
     } else {
         _head = node;
-        _head.previousNode = _head;
-        _head.nextNode = _head;
+        _tail = node;
     }
     
     ++ _count;
@@ -44,10 +47,14 @@
     }
     
     TwoWayLinkedListNode *node = _head;
-    while (node.nextNode != _head) {
+    while (node) {
         if (node.value == value) {
             if (node == _head) {
                 _head = node.nextNode;
+            }
+            
+            if (node == _tail) {
+                _tail = node.previousNode;
             }
             
             node.previousNode.nextNode = node.nextNode;
@@ -61,7 +68,34 @@
 
 /// 移除链表中所有节点
 - (void)removeAllNode {
+    TwoWayLinkedListNode *node = _head.nextNode;
+    while (node) {
+        node.previousNode.nextNode = nil;
+    }
+    _head = nil;
+    _tail = nil;
+}
+
+
+#pragma mark - description
+
+- (NSString *)description {
+    if (!_head) {
+        return @"[]";
+    }
     
+    NSMutableString *string = [NSMutableString stringWithFormat:@"[%@", _head.value];
+    TwoWayLinkedListNode *node = _head.nextNode;
+    while (node) {
+        [string appendFormat:@"%@", [NSString stringWithFormat:@", %@", node.value]];
+        node = node.nextNode;
+    }
+    [string appendString:@"]"];
+    return [string description];
+}
+
+- (NSString *)debugDescription {
+    return [self description];
 }
 
 @end

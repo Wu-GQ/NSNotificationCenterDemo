@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// 循环双向链表，头结点的前一节点即尾结点
+/// 双向链表
 @interface TwoWayLinkedList<ObjectType> : NSObject
 
 /// 链表的节点数量
