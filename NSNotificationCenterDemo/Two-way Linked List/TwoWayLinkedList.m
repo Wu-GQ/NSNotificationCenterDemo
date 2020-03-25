@@ -22,6 +22,14 @@
 
 @implementation TwoWayLinkedList
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _count = 0;
+    }
+    return self;
+}
+
 #pragma mark - Public Function
 
 /// 在双向链表末尾添加节点，节点值为value
@@ -40,15 +48,25 @@
     ++ _count;
 }
 
-/// 移除链表中所有相同value的节点
-- (void)removeAllNodeWithSameValue:(__nonnull id)value {
+/// 遍历所有节点
+- (void)enumerateNodesUsingBlock:(void(^)(id value))block {
+    TwoWayLinkedListNode *node = _head;
+    while (node) {
+        block(node.value);
+        
+        node = node.nextNode;
+    }
+}
+
+/// 根据判断条件移除
+- (void)removeNodesWithCondition:(BOOL(^)(id value))condition {
     if (!_head) {
         return;
     }
     
     TwoWayLinkedListNode *node = _head;
     while (node) {
-        if (node.value == value) {
+        if (condition(node.value)) {
             if (node == _head) {
                 _head = node.nextNode;
             }
@@ -72,8 +90,10 @@
     while (node) {
         node.previousNode.nextNode = nil;
     }
+    
     _head = nil;
     _tail = nil;
+    _count = 0;
 }
 
 

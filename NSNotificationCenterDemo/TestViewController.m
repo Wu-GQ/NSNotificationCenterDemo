@@ -32,8 +32,8 @@
     [super viewWillAppear:animated];
     
     // 第一种方式
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
-//    [[MyNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
+    [[MyNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
 //    [[MyNotificationCenter defaultCenter] addObserverForName:@"Test" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
 //        NSLog(@"%s", __FUNCTION__);
 //
@@ -53,8 +53,8 @@
     [super viewWillDisappear:animated];
     
 //    [[MyNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
 //    [[MyNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -84,6 +84,7 @@
     NSLog(@"%s", __FUNCTION__);
     
     [[MyNotificationCenter defaultCenter] postNotificationName:@"Test" object:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"Test" object:nil];
 }
 
 @end

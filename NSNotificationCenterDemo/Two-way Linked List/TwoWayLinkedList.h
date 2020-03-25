@@ -22,8 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 在双向链表末尾添加节点，节点值为value
 - (void)addNodeWithValue:(__nonnull ObjectType)value;
 
-/// 移除链表中所有相同value的节点
-- (void)removeAllNodeWithSameValue:(__nonnull ObjectType)value;
+/// 遍历所有节点
+- (void)enumerateNodesUsingBlock:(void(^)(ObjectType value))block;
+
+/// 根据判断条件移除
+- (void)removeNodesWithCondition:(BOOL(^)(ObjectType value))condition;
 
 /// 移除链表中所有节点
 - (void)removeAllNode;

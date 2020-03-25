@@ -7,6 +7,7 @@
 //
 
 #import "MyNotificationCenter.h"
+#import "TwoWayLinkedList.h"
 
 
 typedef void(^NotificationModelBlock)(NSNotification *note);
@@ -42,12 +43,12 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
 
 @interface MyNotificationCenter ()
 
-// MASK: 此处为了简单使用了数组，最好可以使用双向链表，因为不需要通过下标访问，增删操作也很频繁
-@property(nonatomic, strong) NSMutableArray<MyNotificationModel *> *noneNameAndNoneObjectNotification;
+// MASK: 此处使用双向链表，因为不需要通过下标访问，增删操作比较多，基本没有查找操作
+@property(nonatomic, strong) TwoWayLinkedList<MyNotificationModel *> *noneNameAndNoneObjectNotification;
+@property(nonatomic, strong) NSMutableDictionary<id, TwoWayLinkedList<MyNotificationModel *> *> *nameAndNoneObjectNotification;
+@property(nonatomic, strong) NSMutableDictionary<id, NSMutableDictionary<id, TwoWayLinkedList<MyNotificationModel *> *> *> *nameAndObjectNotification;
 
-@property(nonatomic, strong) NSMutableDictionary<id, NSMutableArray<MyNotificationModel *> *> *nameAndNoneObjectNotification;
-
-@property(nonatomic, strong) NSMutableDictionary<id, NSMutableDictionary<id, NSMutableArray<MyNotificationModel *> *> *> *nameAndObjectNotification;
+@property(nonatomic, strong) NSMutableDictionary<id, TwoWayLinkedList<MyNotificationModel *> *> *observerDictionary;
 
 // MASK: 使用信号量作为线程安全的保障
 @property(nonatomic, strong) dispatch_semaphore_t semaphore;
@@ -61,9 +62,9 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
  * MyNotificationCenter 的基本逻辑
  * -------- 基本结构 --------
  *  1. 用来存储通知对象的变量
- *   (1) noneNameAndNoneObject，NSMutableArray，接收所有的通知
- *   (2) nameAndNoneObject, NSMutableDictionary<NSMutableArray>，接收对应的通知
- *   (3) nameAndObject, NSMutableDictionary<NSMutableDictionary<NSMutableArray>>, 接收对应的通知
+ *   (1) noneNameAndNoneObject，TwoWayLinkedList，接收所有的通知
+ *   (2) nameAndNoneObject, NSMutableDictionary<[name], TwoWayLinkedList>，接收对应的通知
+ *   (3) nameAndObject, NSMutableDictionary<[name], NSMutableDictionary<[object], TwoWayLinkedList>>, 接收对应的通知
  * -------- 添加通知 --------
  *  当 name 和 object 都为空时，加入(1)，否则按照 name 和 object 加入对应的数组
  * -------- 发送通知 --------
@@ -139,21 +140,21 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
     dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     
     // 无 name 和无 object 中的通知对象，可以接收所有的通知
-    for (MyNotificationModel *model in _noneNameAndNoneObjectNotification) {
-        [self callFunctionWithNotificationModel:model notification:notification];
-    }
+    [_noneNameAndNoneObjectNotification enumerateNodesUsingBlock:^(MyNotificationModel * _Nonnull value) {
+        [self callFunctionWithNotificationModel:value notification:notification];
+    }];
     
     // 无 name 和有 object 的通知无法发送，不考虑。其它的根据 name 和 object 是否有值，去对应的结构中查找能够接收通知的对象
     if (notification.name && !notification.object) {
-        for (MyNotificationModel *model in _nameAndNoneObjectNotification[notification.name]) {
-            [self callFunctionWithNotificationModel:model notification:notification];
-        }
+        [_nameAndNoneObjectNotification[notification.name] enumerateNodesUsingBlock:^(MyNotificationModel * _Nonnull value) {
+            [self callFunctionWithNotificationModel:value notification:notification];
+        }];
     }
     
     if (notification.name && notification.object) {
-        for (MyNotificationModel *model in _nameAndObjectNotification[notification.name][notification.object]) {
-            [self callFunctionWithNotificationModel:model notification:notification];
-        }
+        [_nameAndObjectNotification[notification.name][notification.object] enumerateNodesUsingBlock:^(MyNotificationModel * _Nonnull value) {
+            [self callFunctionWithNotificationModel:value notification:notification];
+        }];
     }
     
     dispatch_semaphore_signal(_semaphore);
@@ -173,12 +174,12 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
 - (void)removeObserver:(id)observer {
     dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     
-    [self removeSameObserver:observer fromArray:_noneNameAndNoneObjectNotification];
+    [self removeSameObserver:observer fromLinkedList:_noneNameAndNoneObjectNotification];
     
-    [self removeSameObserver:observer fromNotificationModelArrayDictionary:_nameAndNoneObjectNotification];
+    [self removeSameObserver:observer fromNotificationModelListDictionary:_nameAndNoneObjectNotification];
     
     for (id name in _nameAndObjectNotification) {
-        [self removeSameObserver:observer fromNotificationModelArrayDictionary:_nameAndObjectNotification[name]];
+        [self removeSameObserver:observer fromNotificationModelListDictionary:_nameAndObjectNotification[name]];
         
         if ([_nameAndObjectNotification[name] count] == 0) {
             [_nameAndObjectNotification removeObjectForKey:name];
@@ -192,11 +193,11 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
     dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     
     if (!aName && !anObject) {
-        [self removeSameObserver:observer fromArray:_noneNameAndNoneObjectNotification];
+        [self removeSameObserver:observer fromLinkedList:_noneNameAndNoneObjectNotification];
     } else if (aName && !anObject) {
-        [self removeSameObserver:observer fromNotificationModelArrayDictionary:_nameAndNoneObjectNotification];
+        [self removeSameObserver:observer fromNotificationModelListDictionary:_nameAndNoneObjectNotification];
     } else if (aName && anObject) {
-        [self removeSameObserver:observer fromNotificationModelArrayDictionary:_nameAndObjectNotification[aName]];
+        [self removeSameObserver:observer fromNotificationModelListDictionary:_nameAndObjectNotification[aName]];
         
         if ([_nameAndObjectNotification[aName] count] == 0) {
             [_nameAndObjectNotification removeObjectForKey:aName];
@@ -216,17 +217,17 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
     // 根据 name 和 object 是否为空，分别存储到三个对象中
     if (!name && !obj) {
         if (!_noneNameAndNoneObjectNotification) {
-            _noneNameAndNoneObjectNotification = [NSMutableArray array];
+            _noneNameAndNoneObjectNotification = [[TwoWayLinkedList alloc] init];
         }
-        [_noneNameAndNoneObjectNotification addObject:model];
+        [_noneNameAndNoneObjectNotification addNodeWithValue:model];
     } else if (name && !obj) {
         if (!_nameAndNoneObjectNotification) {
             _nameAndNoneObjectNotification = [NSMutableDictionary dictionary];
         }
         if (!_nameAndNoneObjectNotification[name]) {
-            _nameAndNoneObjectNotification[name] = [NSMutableArray array];
+            _nameAndNoneObjectNotification[name] = [[TwoWayLinkedList alloc] init];
         }
-        [_nameAndNoneObjectNotification[name] addObject:model];
+        [_nameAndNoneObjectNotification[name] addNodeWithValue:model];
     } else if (name && obj) {
         if (!_nameAndObjectNotification) {
             _nameAndObjectNotification = [NSMutableDictionary dictionary];
@@ -235,10 +236,20 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
             _nameAndObjectNotification[name] = [NSMutableDictionary dictionary];
         }
         if (!_nameAndObjectNotification[name][obj]) {
-            _nameAndObjectNotification[name][obj] = [NSMutableArray array];
+            _nameAndObjectNotification[name][obj] = [[TwoWayLinkedList alloc] init];
         }
-        [_nameAndObjectNotification[name][obj] addObject:model];
+        [_nameAndObjectNotification[name][obj] addNodeWithValue:model];
     }
+    
+//    if (model.observer) {
+//        if (!_observerDictionary) {
+//            _observerDictionary = [NSMutableDictionary dictionary];
+//        }
+//        if (!_observerDictionary[model.observer]) {
+//            _observerDictionary[model.observer] = [[TwoWayLinkedList alloc] init];
+//        }
+//        [_observerDictionary[model.observer] addNodeWithValue:model];;
+//    }
     
     dispatch_semaphore_signal(_semaphore);
 }
@@ -270,25 +281,23 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
 
 #pragma mark - Private Function 移除通知
 
-- (void)removeSameObserver:(id)observer fromNotificationModelArrayDictionary:(NSMutableDictionary<id, NSMutableArray<MyNotificationModel *> *> *)dictionary {
-    [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, NSMutableArray<MyNotificationModel *> * _Nonnull array, BOOL * _Nonnull stop) {
-        [self removeSameObserver:observer fromArray:array];
+- (void)removeSameObserver:(id)observer fromNotificationModelListDictionary:(NSMutableDictionary<id, TwoWayLinkedList<MyNotificationModel *> *> *)dictionary {
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, TwoWayLinkedList<MyNotificationModel *> * _Nonnull list, BOOL * _Nonnull stop) {
+        [self removeSameObserver:observer fromLinkedList:list];
         
         // 当对应 name 和 object 的通知序列都被移除后，移除该Key值
-        if ([array count] == 0) {
+        if ([list count] == 0) {
             [dictionary removeObjectForKey:key];
         }
     }];
 }
 
-- (void)removeSameObserver:(id)observer fromArray:(NSMutableArray<MyNotificationModel *> *)array {
-    // 倒序遍历时删除对象，不会造成崩溃
-    [array enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(MyNotificationModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        // 只移除相同 observer 的通知
-        if (obj.observer == observer) {
-            [array removeObjectAtIndex:idx];
-        }
+- (void)removeSameObserver:(id)observer fromLinkedList:(TwoWayLinkedList<MyNotificationModel *> *)list {
+    [list removeNodesWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
+        return value.observer == observer;
     }];
+    
+    NSLog(@"%@", list);
 }
 
 @end
