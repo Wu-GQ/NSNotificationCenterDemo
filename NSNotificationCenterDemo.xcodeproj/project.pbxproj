@@ -16,6 +16,8 @@
 		4A7049EB2425B1B8002F17A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A7049EA2425B1B8002F17A1 /* Assets.xcassets */; };
 		4A7049EE2425B1B8002F17A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A7049EC2425B1B8002F17A1 /* LaunchScreen.storyboard */; };
 		4A7049F12425B1B8002F17A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A7049F02425B1B8002F17A1 /* main.m */; };
+		4AC716AF242DD58E00E92FCE /* MyNotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AC716AE242DD58E00E92FCE /* MyNotificationModel.m */; };
+		4AC716B2242DDB2100E92FCE /* ObjectDeallocObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AC716B1242DDB2100E92FCE /* ObjectDeallocObserver.m */; };
 		4AEB3F812429E87C00A51596 /* TwoWayLinkedList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AEB3F802429E87C00A51596 /* TwoWayLinkedList.m */; };
 		4AEB3F842429E8B100A51596 /* TwoWayLinkedListNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AEB3F832429E8B100A51596 /* TwoWayLinkedListNode.m */; };
 /* End PBXBuildFile section */
@@ -37,6 +39,10 @@
 		4A7049ED2425B1B8002F17A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4A7049EF2425B1B8002F17A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4A7049F02425B1B8002F17A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4AC716AD242DD58E00E92FCE /* MyNotificationModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyNotificationModel.h; sourceTree = "<group>"; };
+		4AC716AE242DD58E00E92FCE /* MyNotificationModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyNotificationModel.m; sourceTree = "<group>"; };
+		4AC716B0242DDB2100E92FCE /* ObjectDeallocObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectDeallocObserver.h; sourceTree = "<group>"; };
+		4AC716B1242DDB2100E92FCE /* ObjectDeallocObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectDeallocObserver.m; sourceTree = "<group>"; };
 		4AEB3F7F2429E87C00A51596 /* TwoWayLinkedList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwoWayLinkedList.h; sourceTree = "<group>"; };
 		4AEB3F802429E87C00A51596 /* TwoWayLinkedList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TwoWayLinkedList.m; sourceTree = "<group>"; };
 		4AEB3F822429E8B100A51596 /* TwoWayLinkedListNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TwoWayLinkedListNode.h; sourceTree = "<group>"; };
@@ -59,6 +65,10 @@
 			children = (
 				4A16E7832429062800A964F4 /* MyNotificationCenter.h */,
 				4A16E7842429062800A964F4 /* MyNotificationCenter.m */,
+				4AC716AD242DD58E00E92FCE /* MyNotificationModel.h */,
+				4AC716AE242DD58E00E92FCE /* MyNotificationModel.m */,
+				4AC716B0242DDB2100E92FCE /* ObjectDeallocObserver.h */,
+				4AC716B1242DDB2100E92FCE /* ObjectDeallocObserver.m */,
 			);
 			path = MyNotificationCenter;
 			sourceTree = "<group>";
@@ -183,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A16E7882429064B00A964F4 /* TestViewController.m in Sources */,
+				4AC716B2242DDB2100E92FCE /* ObjectDeallocObserver.m in Sources */,
 				4A16E7852429062B00A964F4 /* MyNotificationCenter.m in Sources */,
 				4A7049E62425B1B7002F17A1 /* ViewController.m in Sources */,
 				4A7049E02425B1B7002F17A1 /* AppDelegate.m in Sources */,
@@ -190,6 +201,7 @@
 				4AEB3F842429E8B100A51596 /* TwoWayLinkedListNode.m in Sources */,
 				4A7049E32425B1B7002F17A1 /* SceneDelegate.m in Sources */,
 				4AEB3F812429E87C00A51596 /* TwoWayLinkedList.m in Sources */,
+				4AC716AF242DD58E00E92FCE /* MyNotificationModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

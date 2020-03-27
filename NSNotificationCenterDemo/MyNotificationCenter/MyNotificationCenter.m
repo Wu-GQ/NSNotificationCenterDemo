@@ -8,37 +8,7 @@
 
 #import "MyNotificationCenter.h"
 #import "TwoWayLinkedList.h"
-
-
-typedef void(^NotificationModelBlock)(NSNotification *note);
-
-
-@interface MyNotificationModel : NSObject
-
-/// 通知的name
-@property(nonatomic, copy, nullable) NSString *name;
-
-/// 通知的object
-@property(nonatomic, strong, nullable) id object;
-
-// MASK: 此处使用 weak 属性修饰，以免 observer 被通知中心持有，导致无法释放
-/// 通知的发送对象observer
-@property(nonatomic, weak) id observer;
-
-/// 通知的调用函数selector
-@property(nonatomic, assign) SEL selector;
-
-/// 通知的回调函数block
-@property(nonatomic, copy) NotificationModelBlock block;
-
-/// 通知回调函数的执行队列queue
-@property(nonatomic, strong, nullable) NSOperationQueue *queue;
-
-@end
-
-@implementation MyNotificationModel
-
-@end
+#import "MyNotificationModel.h"
 
 
 @interface MyNotificationCenter ()
@@ -112,6 +82,11 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
     model.selector = aSelector;
     model.name = aName;
     model.object = anObject;
+    
+    __weak typeof(self) weakSelf = self;
+    model.observerDeallocBlock = ^(MyNotificationModel *model) {
+        [weakSelf removeObserver:model.observer name:model.name object:model.object];
+    };
     
     [self addObserverWithName:aName object:anObject model:model];
 }
@@ -240,16 +215,6 @@ typedef void(^NotificationModelBlock)(NSNotification *note);
         }
         [_nameAndObjectNotification[name][obj] addNodeWithValue:model];
     }
-    
-//    if (model.observer) {
-//        if (!_observerDictionary) {
-//            _observerDictionary = [NSMutableDictionary dictionary];
-//        }
-//        if (!_observerDictionary[model.observer]) {
-//            _observerDictionary[model.observer] = [[TwoWayLinkedList alloc] init];
-//        }
-//        [_observerDictionary[model.observer] addNodeWithValue:model];;
-//    }
     
     dispatch_semaphore_signal(_semaphore);
 }

@@ -34,11 +34,6 @@
     // 第一种方式
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
     [[MyNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
-//    [[MyNotificationCenter defaultCenter] addObserverForName:@"Test" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-//        NSLog(@"%s", __FUNCTION__);
-//
-//        [self testFunction2];
-//    }];
     
     // 第二种方式
 //    __weak typeof(self) weakSelf = self;
@@ -54,8 +49,6 @@
     
 //    [[MyNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
 //    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
-//    [[MyNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)dealloc {
@@ -66,12 +59,6 @@
     NSLog(@"%s", __FUNCTION__);
     
     NSLog(@"%@", sender);
-}
-
-- (void)testFunction2 {
-    NSLog(@"%s", __FUNCTION__);
-    
-//    NSLog(@"%@", sender);
 }
 
 - (void)testFunction3:(NSNotification *)sender {
