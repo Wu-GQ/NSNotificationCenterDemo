@@ -20,16 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /// 在双向链表末尾添加节点，节点值为value
-- (void)addNodeWithValue:(__nonnull ObjectType)value;
+- (void)addObjectWithValue:(__nonnull ObjectType)value;
 
 /// 遍历所有节点
-- (void)enumerateNodesUsingBlock:(void(^)(ObjectType value))block;
+- (void)enumerateObjectsUsingBlock:(void(^)(ObjectType value))block;
 
 /// 根据判断条件移除
-- (void)removeNodesWithCondition:(BOOL(^)(ObjectType value))condition;
+- (void)removeObjectsWithCondition:(BOOL(^)(ObjectType value))condition;
 
 /// 移除链表中所有节点
-- (void)removeAllNode;
+- (void)removeAllObjects;
 
 @end
 

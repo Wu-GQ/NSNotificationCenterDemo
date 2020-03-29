@@ -150,7 +150,7 @@
     
     [_notificationDictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, NSMutableDictionary<id,TwoWayLinkedList<MyNotificationModel *> *> * _Nonnull dictionary, BOOL * _Nonnull stop) {
         [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, TwoWayLinkedList<MyNotificationModel *> * _Nonnull list, BOOL * _Nonnull stop) {
-            [list removeNodesWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
+            [list removeObjectsWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
                 return value.observer == observer;
             }];
             
@@ -174,7 +174,7 @@
         [self removeObserver:observer];
     } else if (aName && !anObject) {
         [_notificationDictionary[aName] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, TwoWayLinkedList<MyNotificationModel *> * _Nonnull list, BOOL * _Nonnull stop) {
-            [list removeNodesWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
+            [list removeObjectsWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
                 return value.observer == observer;
             }];
             
@@ -188,7 +188,7 @@
         }
     } else if (!aName && anObject) {
         [_notificationDictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, NSMutableDictionary<id,TwoWayLinkedList<MyNotificationModel *> *> * _Nonnull dictionary, BOOL * _Nonnull stop) {
-            [dictionary[anObject] removeNodesWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
+            [dictionary[anObject] removeObjectsWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
                 return value.observer == observer;
             }];
             
@@ -201,7 +201,7 @@
             }
         }];
     } else {
-        [_notificationDictionary[aName][anObject] removeNodesWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
+        [_notificationDictionary[aName][anObject] removeObjectsWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
             return value.observer == observer;
         }];
         
@@ -243,7 +243,7 @@
     }
     
     // 加入通知序列中
-    [_notificationDictionary[nameKey][objKey] addNodeWithValue:model];
+    [_notificationDictionary[nameKey][objKey] addObjectWithValue:model];
     
     dispatch_semaphore_signal(_semaphore);
 }
@@ -253,7 +253,7 @@
 
 /// 向序列中的所有接收者发送通知
 - (void)sendNotification:(NSNotification *)notification modelList:(TwoWayLinkedList *)list {
-    [list enumerateNodesUsingBlock:^(MyNotificationModel * _Nonnull model) {
+    [list enumerateObjectsUsingBlock:^(MyNotificationModel * _Nonnull model) {
         // 当 observer 不为空，且 observer 能响应 selector 时，调用 SEL，否则调用 block
         if (model.observer && [model.observer respondsToSelector:model.selector]) {
             if ([NSStringFromSelector(model.selector) hasSuffix:@":"]) {

@@ -33,7 +33,7 @@
 #pragma mark - Public Function
 
 /// 在双向链表末尾添加节点，节点值为value
-- (void)addNodeWithValue:(__nonnull id)value {
+- (void)addObjectWithValue:(__nonnull id)value {
     TwoWayLinkedListNode *node = [TwoWayLinkedListNode nodeWithValue:value];
     
     if (_tail) {
@@ -49,7 +49,7 @@
 }
 
 /// 遍历所有节点
-- (void)enumerateNodesUsingBlock:(void(^)(id value))block {
+- (void)enumerateObjectsUsingBlock:(void(^)(id value))block {
     TwoWayLinkedListNode *node = _head;
     while (node) {
         block(node.value);
@@ -59,7 +59,7 @@
 }
 
 /// 根据判断条件移除
-- (void)removeNodesWithCondition:(BOOL(^)(id value))condition {
+- (void)removeObjectsWithCondition:(BOOL(^)(id value))condition {
     if (!_head) {
         return;
     }
@@ -85,7 +85,7 @@
 }
 
 /// 移除链表中所有节点
-- (void)removeAllNode {
+- (void)removeAllObjects {
     TwoWayLinkedListNode *node = _head.nextNode;
     while (node) {
         node.previousNode.nextNode = nil;
