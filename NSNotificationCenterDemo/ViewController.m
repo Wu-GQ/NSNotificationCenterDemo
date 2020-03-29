@@ -19,6 +19,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSNull *null = [NSNull null];
+    dict[null] = @(1);
+    
+    NSNull *null2 = [[NSNull alloc] init];
+    NSLog(@"%@", dict[null2]);
 }
 
 - (IBAction)toTestButtonEvent:(id)sender {

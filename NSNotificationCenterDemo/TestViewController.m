@@ -32,8 +32,11 @@
     [super viewWillAppear:animated];
     
     // 第一种方式
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
-    [[MyNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
+//    [[MyNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:@(1)];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:nil object:@(1)];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:nil object:nil];
     
     // 第二种方式
 //    __weak typeof(self) weakSelf = self;
@@ -55,23 +58,28 @@
     NSLog(@"%s", __FUNCTION__);
 }
 
-- (void)testFunction:(NSNotification *)sender {
-    NSLog(@"%s", __FUNCTION__);
-    
-    NSLog(@"%@", sender);
-}
 
-- (void)testFunction3:(NSNotification *)sender {
-    NSLog(@"%s", __FUNCTION__);
-    
-    NSLog(@"%@", sender);
-}
+#pragma mark - UIControl Event
 
 - (IBAction)postButtonEvent:(id)sender {
     NSLog(@"%s", __FUNCTION__);
     
-    [[MyNotificationCenter defaultCenter] postNotificationName:@"Test" object:nil];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"Test" object:nil];
+//    [[MyNotificationCenter defaultCenter] postNotificationName:@"Test" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Test" object:@(2)];
+}
+
+- (IBAction)removeButtonEvent:(id)sender {
+    //    [[MyNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
+}
+
+
+#pragma mark - Private Function
+
+- (void)testFunction:(NSNotification *)sender {
+    NSLog(@"%s", __FUNCTION__);
+    
+    NSLog(@"%@", sender);
 }
 
 @end
