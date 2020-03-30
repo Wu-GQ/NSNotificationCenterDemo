@@ -128,7 +128,7 @@
     
     if (notification.object) {
         [self sendNotification:notification modelList:_notificationDictionary[[NSNull null]][notification.object]];
-        [self sendNotification:notification modelList:_notificationDictionary[notification.name][[NSNull null]]];
+        [self sendNotification:notification modelList:_notificationDictionary[notification.name][notification.object]];
     }
     
     dispatch_semaphore_signal(_semaphore);
@@ -226,8 +226,8 @@
         nameKey = [NSNull null];
     }
     id objKey = obj;
-    if (!obj) {
-        obj = [NSNull null];
+    if (!objKey) {
+        objKey = [NSNull null];
     }
     
     // 使用懒加载初始化

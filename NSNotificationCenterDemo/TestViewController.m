@@ -32,11 +32,9 @@
     [super viewWillAppear:animated];
     
     // 第一种方式
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
-//    [[MyNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:@(1)];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:nil object:@(1)];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:nil object:nil];
+    [[MyNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:nil];
+    [[MyNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:@"Test" object:@(1)];
+    [[MyNotificationCenter defaultCenter] addObserver:self selector:@selector(testFunction:) name:nil object:@(1)];
     
     // 第二种方式
 //    __weak typeof(self) weakSelf = self;
@@ -64,13 +62,11 @@
 - (IBAction)postButtonEvent:(id)sender {
     NSLog(@"%s", __FUNCTION__);
     
-//    [[MyNotificationCenter defaultCenter] postNotificationName:@"Test" object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Test" object:@(2)];
+    [[MyNotificationCenter defaultCenter] postNotificationName:@"Test" object:@(1)];
 }
 
 - (IBAction)removeButtonEvent:(id)sender {
-    //    [[MyNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
+    [[MyNotificationCenter defaultCenter] removeObserver:self name:@"Test" object:nil];
 }
 
 
