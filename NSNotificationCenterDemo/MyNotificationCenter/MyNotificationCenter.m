@@ -146,32 +146,28 @@
 #pragma mark - Public Function 移除通知
 
 - (void)removeObserver:(id)observer {
-    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
-    
-    [_notificationDictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, NSMutableDictionary<id,TwoWayLinkedList<MyNotificationModel *> *> * _Nonnull dictionary, BOOL * _Nonnull stop) {
-        [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, TwoWayLinkedList<MyNotificationModel *> * _Nonnull list, BOOL * _Nonnull stop) {
-            [list removeObjectsWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
-                return value.observer == observer;
-            }];
-            
-            if (list.count == 0) {
-                [dictionary removeObjectForKey:key];
-            }
-        }];
-        
-        if ([dictionary count] == 0) {
-            [_notificationDictionary removeObjectForKey:key];
-        }
-    }];
-    
-    dispatch_semaphore_signal(_semaphore);
+    [self removeObserver:observer name:nil object:nil];
 }
 
 - (void)removeObserver:(id)observer name:(nullable NSNotificationName)aName object:(nullable id)anObject {
     dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     
     if (!aName && !anObject) {
-        [self removeObserver:observer];
+        [_notificationDictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, NSMutableDictionary<id,TwoWayLinkedList<MyNotificationModel *> *> * _Nonnull dictionary, BOOL * _Nonnull stop) {
+            [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, TwoWayLinkedList<MyNotificationModel *> * _Nonnull list, BOOL * _Nonnull stop) {
+                [list removeObjectsWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
+                    return value.observer == observer;
+                }];
+                
+                if (list.count == 0) {
+                    [dictionary removeObjectForKey:key];
+                }
+            }];
+            
+            if ([dictionary count] == 0) {
+                [_notificationDictionary removeObjectForKey:key];
+            }
+        }];
     } else if (aName && !anObject) {
         [_notificationDictionary[aName] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, TwoWayLinkedList<MyNotificationModel *> * _Nonnull list, BOOL * _Nonnull stop) {
             [list removeObjectsWithCondition:^BOOL(MyNotificationModel * _Nonnull value) {
