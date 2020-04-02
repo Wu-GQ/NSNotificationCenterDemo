@@ -97,20 +97,23 @@
 }
 
 - (id <NSObject>)addObserverForName:(nullable NSNotificationName)name object:(nullable id)obj queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(NSNotification *note))block {
-    // 由于通过该方法添加的通知没有observer，需要手动创造一个observer，以用来移除通知
-    NSObject *observer = [NSObject new];
-    
+    // 由于通过该方法添加的通知没有 observer，将 MyNotificationModel 返回，用来移除通知
     MyNotificationModel *model = [MyNotificationModel new];
-    model.observer = observer;
+    model.observer = model;
     model.name = name;
     model.object = obj;
     model.block = block;
     model.queue = queue;
     
+    // 由于 observer 就是自身，而 MyNotificationCenter 强引用 MyNotificationModel，因此使用 Block 添加的通知无法自动移除
+//    __weak typeof(self) weakSelf = self;
+//    model.observerDeallocBlock = ^(MyNotificationModel *model) {
+//        [weakSelf removeObserver:model.observer name:model.name object:model.object];
+//    };
+    
     [self addObserverWithName:name object:obj model:model];
     
-    // 返回的 observer 需要用强引用，否则该通知无法被销毁
-    return observer;
+    return model;
 }
 
 
