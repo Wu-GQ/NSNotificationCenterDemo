@@ -12,10 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MyNotificationCenter : NSObject <NSCopying>
 
-// class 属性不太理解，因此改为使用单例模式实现
-//@property(class, readonly, strong) NSNotificationCenter *defaultCenter;
+@property(class, readonly, strong) MyNotificationCenter *defaultCenter;
 
-+ (MyNotificationCenter *)defaultCenter;
+//+ (MyNotificationCenter *)defaultCenter;
 
 - (void)addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSNotificationName)aName object:(nullable id)anObject;
 - (id <NSObject>)addObserverForName:(nullable NSNotificationName)name object:(nullable id)obj queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(NSNotification *note))block;
