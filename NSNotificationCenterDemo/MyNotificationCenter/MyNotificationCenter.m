@@ -54,7 +54,9 @@
     static MyNotificationCenter *_instance = nil;
     static dispatch_once_t token;
     dispatch_once(&token, ^{
-        // alloc 会调用 allocWithZone: 函数，需要重写 allocWithZone: 函数才能实现每次获取的都是y同一个对象
+        // 此处如果写 [self alloc] 或者 [super alloc] 都不行
+        // [self alloc] 是因为重写 allocWithZone 方法，会陷入死循环
+        // [super alloc] 是因为当子类中有同名方法时，先调用子类的方法
         _instance = [[super allocWithZone:nil] init];
     });
     return _instance;
